@@ -42,7 +42,6 @@ The `points` method plots coordinates.
 
 ![Aquilegia coordinates](/cstubben/nmbcc/raw/master/plots/aq_coords.png)
 
-
 You can also use many of the built-in `R` functions to plot histograms, dotcharts, and scatterplots.
 
 	hist(year(aq$collected), xlab="Year", ylab = "Collections", main="", col="green", las=1)
