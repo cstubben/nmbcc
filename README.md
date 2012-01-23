@@ -32,7 +32,7 @@ The `plot` method displays a county map.
 	plot(aq)
 	[1] "Warning: 18 collections not mapped"
 
-![Aquilegia plots](/cstubben/nmbcc/raw/master/plots/aq_plots.png)
+![Aquilegia plots](/cstubben/nmbcc/raw/master/plots/aq_counties.png)
 
 
 The `points` method plots coordinates.
@@ -46,19 +46,19 @@ The `points` method plots coordinates.
 You can also use many of the built-in `R` functions to plot histograms, dotcharts, and scatterplots.
 
 	hist(year(aq$collected), xlab="Year", ylab = "Collections", main="", col="green", las=1)
-        dotchart(sort(table(aq$source)), xlab="Collections", pch=16, cex=1.1)
-	plot(year(aq$collected), format(aq$collected, "%j"), pch=16, xlab="Year", ylab="Day collected", col=rgb(0,0,1,.5) , cex=.8)
+	dotchart(sort(table(aq$source)), xlab="Collections", pch=16, cex=1.1)
+	plot(year(aq$collected), format(aq$collected, "%j"), pch=16, xlab="Year", ylab="Day collected", col=rgb(0,0,1,.5))
 
 
-![Aquilegia NM county map](/cstubben/nmbcc/raw/master/plots/aq_counties.png)
+![Aquilegia NM county map](/cstubben/nmbcc/raw/master/plots/aq_plots.png)
 
 All the functions have a species option to download or plot a specific species and we are currently working on completing a `nmbcc` package with full details and help pages. 
 
-yucca <- nmbcc("Yucca", sp = "elata" , TRUE)
-plot(aq, sp="chrysantha", pal="YlOrBr")
+	yucca <- nmbcc("Yucca", sp = "elata" , TRUE)
+	plot(aq, sp="chrysantha", pal="YlOrBr")
 
 
-Finally, using a loop, you can plot different points for each species or separate county maps.
+Finally, you can plot different points for each species or separate county maps using a loop.
 
 ![Aquilegia map](/cstubben/nmbcc/raw/master/plots/aq_sp.png)
 
