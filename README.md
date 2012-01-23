@@ -1,19 +1,18 @@
 # Introduction
 
-This guide describes how to download and plot collection data in [`R`](http://cran.r-project.org) from the New Mexico Biodiversity Collections Consortium [NMBCC](http://nmbiodiversity.org/) using the Global Biodiversity Information Facility [GBIF](http://data.gbif.org).  You will need to install a few R packages including maps, dismo, RColorBrewer, and XML.  Next, download the `nmbcc.R` file above to your working directory and `source` the file to install the additional functions.
+This guide describes how to download and plot collection data from the New Mexico Biodiversity Collections Consortium [NMBCC](http://nmbiodiversity.org/) using the Global Biodiversity Information Facility [GBIF](http://data.gbif.org).  You will need to install a few [`R`](http://cran.r-project.org) packages including maps, dismo, RColorBrewer, and XML.  Next, download the `nmbcc.R` file above to your working directory and `source` the file to install the additional functions.
 
-        library(maps); library(dismo); library(RColorBrewer); library(XML)
+	library(maps); library(dismo); library(RColorBrewer); library(XML)
 	source("nmbcc.R")
        
-The main function is `nmbcc`, which downloads the GBIF records from NMBCC and outputs a new class object `gbif` with three basic methods: print, plot and points.
-Basically, the `nmbcc` script uses a hack to paste extra url strings such as the dataproviderkey to the species option from `gbif()` in the `dismo` package and then reformats the output.  The default is to only return the number of collections available, in this case the number of columbines in the genus Aquilegia. Use the download option to retrieve the data.
+The main function `nmbcc` downloads the GBIF records from NMBCC and outputs a new class object `gbif`. Basically, the `nmbcc` script uses a hack to paste the dataproviderkey to the species option from `gbif()` in the `dismo` package and then reformats the output.  The default is to only return the number of collections available, in this case the number of columbines in the genus Aquilegia. Use the download option to retrieve the data.
 
 	nmbcc("Aquilegia")
 	[1] "Searching GBIF for Aquilegia"
 	[1] "359 occurrences available. Set download=TRUE to download"
 	aq <- nmbcc("Aquilegia", download = TRUE)
 
-The `print` method displays the first few rows of the table (last 6 columns not shown). 
+The resulting table is a similar to `data.frame` with a three specific methods: print, plot and points. The `print` method displays the first few rows of the table (last 6 columns not shown). To view the entire table, just use `data.frame(aq)`. 
 
 	aq
 	  A GBIF table with 359 rows and 12 columns
@@ -33,7 +32,7 @@ The `plot` method displays a county map.
 	plot(aq)
 	[1] "Warning: 18 collections not mapped"
 
-![Aquilegia NM county map](/cstubben/nmbcc/blob/master/plots/aq_counties.png)
+![Aquilegia plots](/cstubben/nmbcc/raw/master/plots/aq_plots.png)
 
 
 The `points` method plots coordinates.
@@ -44,12 +43,28 @@ The `points` method plots coordinates.
 ![Aquilegia coordinates](/cstubben/nmbcc/raw/master/plots/aq_coords.png)
 
 
-Test 1
+You can also use many of the built-in `R` functions to plot histograms, dotcharts, and scatterplots.
+
+	hist(year(aq$collected), xlab="Year", ylab = "Collections", main="", col="green", las=1)
+        dotchart(sort(table(aq$source)), xlab="Collections", pch=16, cex=1.1)
+	plot(year(aq$collected), format(aq$collected, "%j"), pch=16, xlab="Year", ylab="Day collected", col=rgb(0,0,1,.5) , cex=.8)
 
 
-![Aquilegia test1](plots/aq_counties.png)
+![Aquilegia NM county map](/cstubben/nmbcc/raw/master/plots/aq_counties.png)
+
+All the functions have a species option to download or plot a specific species and we are currently working on completing a `nmbcc` package with full details and help pages. 
+
+yucca <- nmbcc("Yucca", sp = "elata" , TRUE)
+plot(aq, sp="chrysantha", pal="YlOrBr")
 
 
-Test2
+Finally, using a loop, you can plot different points for each species or separate county maps.
 
-![Aquilegia test2](./plots/aq_coords.png)
+![Aquilegia map](/cstubben/nmbcc/raw/master/plots/aq_sp.png)
+
+![Aquilegia map2](/cstubben/nmbcc/raw/master/plots/aq_sp2.png)
+
+
+
+
+
