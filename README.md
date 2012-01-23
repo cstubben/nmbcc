@@ -1,11 +1,12 @@
 # Introduction
 
-This guide describes how to download and plot collection data in [`R`](http://cran.r-project.org) from the New Mexico Biodiversity Collections Consortium [NMBCC](http://nmbiodiversity.org/) using the Global Biodiversity Information Facility [GBIF](http://data.gbif.org).  You will need to install a few R packages including `maps`, `dismo`, and `RColorBrewer`.  Next, install the functions in this folder.
+This guide describes how to download and plot collection data in [`R`](http://cran.r-project.org) from the New Mexico Biodiversity Collections Consortium [NMBCC](http://nmbiodiversity.org/) using the Global Biodiversity Information Facility [GBIF](http://data.gbif.org).  You will need to install a few R packages including maps, dismo, RColorBrewer, and XML.  Next, download the `nmbcc.R` file above to your working directory and `source` the file to install the additional functions.
 
-	source("https://github.com/cstubben/nmbcc/blob/master/nmbcc.R")
+        library(maps); library(dismo); library(RColorBrewer); library(XML)
+	source("nmbcc.R")
        
 The main function is `nmbcc`, which downloads the GBIF records from NMBCC and outputs a new class object `gbif` with three basic methods: print, plot and points.
-Basically, the `nmbcc` script uses a hack to paste extra url strings such as the `dataproviderkey` to the species option from `gbif()` in the `dismo` package and then reformats the output.  The default is to only return the number of collections available, in this case the number of columbines in the genus Aquilegia. Use the download option to retrieve the data.
+Basically, the `nmbcc` script uses a hack to paste extra url strings such as the dataproviderkey to the species option from `gbif()` in the `dismo` package and then reformats the output.  The default is to only return the number of collections available, in this case the number of columbines in the genus Aquilegia. Use the download option to retrieve the data.
 
 	nmbcc("Aquilegia")
 	[1] "Searching GBIF for Aquilegia"
@@ -32,7 +33,7 @@ The `plot` method displays a county map.
 	plot(aq)
 	[1] "Warning: 18 collections not mapped"
 
-[![Aquilegia NM county map](https://github.com/cstubben/nmbcc/blob/master/plots/aq_counties.png)](https://github.com/cstubben/nmbcc/blob/master/plots/aq_counties.png)
+![Aquilegia NM county map](/cstubben/nmbcc/blob/master/plots/aq_counties.png)
 
 
 The `points` method plots coordinates.
@@ -40,4 +41,15 @@ The `points` method plots coordinates.
 	> points(aq)
 	[1] "Warning: 233 collections not mapped"
 
-[![Aquilegia coordinates](https://github.com/cstubben/nmbcc/blob/master/plots/aq_coords.png)](https://github.com/cstubben/nmbcc/blob/master/plots/aq_coords.png)
+![Aquilegia coordinates](/cstubben/nmbcc/raw/master/plots/aq_coords.png)
+
+
+Test 1
+
+
+![Aquilegia test1](plots/aq_counties.png)
+
+
+Test2
+
+![Aquilegia test2](./plots/aq_coords.png)
