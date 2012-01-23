@@ -5,7 +5,7 @@ This guide describes how to download and plot collection data from the New Mexic
 	library(maps); library(dismo); library(RColorBrewer); library(XML)
 	source("nmbcc.R")
        
-The main function `nmbcc` downloads the GBIF records from NMBCC and outputs a new class object `gbif`. Basically, the `nmbcc` script uses a hack to paste the dataproviderkey to the species option from `gbif()` in the `dismo` package and then reformats the output.  The default is to only return the number of collections available, in this case the number of columbines in the genus Aquilegia. Use the download option to retrieve the data.
+The main function `nmbcc` downloads the GBIF records from NMBCC and outputs a new class object `gbif`. Basically, the `nmbcc` script uses a hack to paste the dataproviderkey to the species option from `gbif()` in the `dismo` package and then reformats the output.  The default is to only return the number of collections available, in this case the number of columbines in the genus *Aquilegia*. Use the download option to retrieve the data.
 
 	nmbcc("Aquilegia")
 	[1] "Searching GBIF for Aquilegia"
@@ -51,11 +51,11 @@ You can also use many of the built-in `R` functions to plot histograms, dotchart
 
 ![Aquilegia NM county map](/cstubben/nmbcc/raw/master/plots/aq_plots.png)
 
-All the functions have a species option to download or plot a specific species.  Also, the data provider key is an option that can also be changed, for example, to download collections of A. chrysantha from two Arizona herbaria, use the provder keys 318 and 269 (and search GBIF for additional data publisher IDs).  
+All the functions have a species option to download or plot a specific species.  Also, the data provider key is an option that can also be changed, for example, to download collections of *A. chrysantha* from two Arizona herbaria, use the provider keys 318 and 269 (and search [GBIF](http://data.gbif.org) for additional data publisher IDs).  
 
 	yucca <- nmbcc("Yucca", sp = "elata" , TRUE)
 	plot(aq, sp="chrysantha", pal="YlOrBr")
-        az <- nmbcc("Aquilegia", sp="chrysantha", TRUE, provider= c(318, 269))
+	az <- nmbcc("Aquilegia", sp="chrysantha", TRUE, provider= c(318, 269))
 
 Finally, you can plot different points for each species or separate county maps using a loop.
 
