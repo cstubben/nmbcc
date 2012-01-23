@@ -57,9 +57,30 @@ All the functions have a species option to download or plot a specific species. 
 	plot(aq, sp="chrysantha", pal="YlOrBr")
 	az <- nmbcc("Aquilegia", sp="chrysantha", TRUE, provider= c(318, 269))
 
-Finally, you can plot different points for each species or separate county maps using a loop.
+Finally, you can plot different points for each species using a loop (first check species names and fix the alternate spelling for *caerulea*).
+
+	table(species(aq$species))
+	aq$species <-gsub("coerulea", "caerulea", aq$species)
+	x<-unique(species( aq$species) )
+	
+	par(mar=c(3,3,3,3), xpd=TRUE)
+	map("county", "new mexico")
+	mtext(expression(paste(italic("Aquilegia"),  " collections")), 1, line=-1, cex=1.4)
+	clrs<-c("darkblue", "orange", "yellow", "orangered", "red", "darkred")
+	pch=c(15,16,17,15,16,17)
+	for(i in 1:6){
+	  y<-aq2[aq$species==x[i],]
+	  points(y, pch=pch[i], col=clrs[i], add=TRUE)
+	}
+	legend(-108.3, 37.6,legend=gsub("Aquilegia", "A.", x), pch=pch, col=clrs, bty='n', ncol=3)
 
 ![Aquilegia map](/cstubben/nmbcc/raw/master/plots/aq_sp.png)
+
+You can also plot separate county maps.  *A. triternata* is now considered a synonym of *A. desertorum* and you could update these old names using `aq$species <-gsub("triternata", "desertorum", aq$species)`.  Since the plot function uses `grep` to match patterns, you could also combine the two species using `plot(aq, "Aquilegia [dt]", label="A. desertorum")`
+
+	par(mar=c(1,1,1,1), mfrow=c(3,2))
+        palettes <- c("Blues", "Oranges", "YlOrBr", "Reds", "OrRd", "Reds")
+        for(i in 1:6){ plot(aq, x[i], palettes[i])}
 
 ![Aquilegia map2](/cstubben/nmbcc/raw/master/plots/aq_sp2.png)
 
