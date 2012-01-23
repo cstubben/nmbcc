@@ -12,7 +12,7 @@ The main function `nmbcc` downloads the GBIF records from NMBCC and outputs a ne
 	[1] "359 occurrences available. Set download=TRUE to download"
 	aq <- nmbcc("Aquilegia", download = TRUE)
 
-The resulting table is a similar to `data.frame` with a three specific methods: print, plot and points. The `print` method displays the first few rows of the table (last 6 columns not shown). To view the entire table, just use `data.frame(aq)`. 
+The resulting table is a similar to `data.frame` with three specific methods: print, plot and points. The `print` method displays the first few rows of the table (last 6 columns not shown). To view the entire table, just use `data.frame(aq)`. 
 
 	aq
 	  A GBIF table with 359 rows and 12 columns
@@ -27,7 +27,7 @@ The resulting table is a similar to `data.frame` with a three specific methods: 
 	359 Aquilegia triternata                E.J. Bedker 1962-08-05      US New Mexico          Torrance
 
 
-The `plot` method displays a county map. 
+The `plot` method displays a colored county map. 
 
 	plot(aq)
 	[1] "Warning: 18 collections not mapped"
@@ -35,12 +35,16 @@ The `plot` method displays a county map.
 ![Aquilegia counties](/cstubben/nmbcc/raw/master/plots/aq_counties.png)
 
 
-The `points` method plots coordinates.
+The `points` method plots coordinates on the county map. If you have `RgoogleMaps` installed, you can change the background using a few lines of code.
 
-	> points(aq)
+	points(aq)
 	[1] "Warning: 233 collections not mapped"
+	library(RgoogleMaps)
+	gmap <- GetMap( c( 34.2, -106.05), zoom=7,  maptype="terrain", destfile="nm.png")
+	PlotOnStaticMap(gmap,lon=aq$lon,lat= aq$lat,col="blue", pch=16, verbose=0)
 
-![Aquilegia coordinates](/cstubben/nmbcc/raw/master/plots/aq_coords.png)
+
+![Aquilegia coordinates](/cstubben/nmbcc/raw/master/plots/nm2.png)
 
 You can also use many of the built-in `R` functions to plot histograms, dotcharts, and scatterplots.
 
