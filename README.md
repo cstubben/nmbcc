@@ -44,7 +44,7 @@ The `points` method plots coordinates on the county map. If you have `RgoogleMap
 	PlotOnStaticMap(gmap,lon=aq$lon,lat= aq$lat,col="blue", pch=16, verbose=0)
 
 
-![Aquilegia coordinates](/cstubben/nmbcc/raw/master/plots/nm2.png)
+![Aquilegia coordinates](/cstubben/nmbcc/raw/master/plots/nm2.png?420)
 
 You can also use many of the built-in `R` functions to plot histograms, dotcharts, and scatterplots.
 
