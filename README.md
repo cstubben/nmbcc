@@ -32,7 +32,7 @@ The `plot` method displays a county map.
 	plot(aq)
 	[1] "Warning: 18 collections not mapped"
 
-![Aquilegia plots](/cstubben/nmbcc/raw/master/plots/aq_counties.png)
+![Aquilegia counties](/cstubben/nmbcc/raw/master/plots/aq_counties.png)
 
 
 The `points` method plots coordinates.
@@ -49,7 +49,9 @@ You can also use many of the built-in `R` functions to plot histograms, dotchart
 	plot(year(aq$collected), format(aq$collected, "%j"), pch=16, xlab="Year", ylab="Day collected", col=rgb(0,0,1,.5))
 
 
-![Aquilegia NM county map](/cstubben/nmbcc/raw/master/plots/aq_plots.png)
+![Aquilegia plots](/cstubben/nmbcc/raw/master/plots/aq_plots.png)
+![Aquilegia plot2](/cstubben/nmbcc/raw/master/plots/aq_plots2.png)
+
 
 All the functions have a species option to download or plot a specific species.  Also, the data provider key is an option that can also be changed, for example, to download collections of *A. chrysantha* from two Arizona herbaria, use the provider keys 318 and 269 (and search [GBIF](http://data.gbif.org) for additional data publisher IDs).  
 
