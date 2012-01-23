@@ -70,15 +70,12 @@ Finally, you can plot different points for each species using a loop (first chec
 	mtext(expression(paste(italic("Aquilegia"),  " collections")), 1, line=-1, cex=1.4)
 	clrs<-c("darkblue", "orange", "yellow", "orangered", "red", "darkred")
 	pch=c(15,16,17,15,16,17)
-	for(i in 1:6){
-	  y<-aq2[aq$species==x[i],]
-	  points(y, pch=pch[i], col=clrs[i], add=TRUE)
-	}
+	for(i in 1:6){ points(aq, x[i],  pch=pch[i], col=clrs[i], add=TRUE) }
 	legend(-108.3, 37.6,legend=gsub("Aquilegia", "A.", x), pch=pch, col=clrs, bty='n', ncol=3)
 
 ![Aquilegia map](/cstubben/nmbcc/raw/master/plots/aq_sp.png)
 
-You can also plot separate county maps.  *A. triternata* is now considered a synonym of *A. desertorum* and you could update these old names using `aq$species <-gsub("triternata", "desertorum", aq$species)`.  Since the plot function uses `grep` to match patterns, you could also combine the two species using `plot(aq, "Aquilegia [dt]", label="A. desertorum")`
+You can also plot separate county maps using a loop.  *A. triternata* is now considered a synonym of *A. desertorum* and you could update these old names using `aq$species <-gsub("triternata", "desertorum", aq$species)`.  Since the plot function uses `grep` to match patterns, you could also combine the two species using `plot(aq, "Aquilegia [dt]", label="A. desertorum")`
 
 	par(mar=c(1,1,1,1), mfrow=c(3,2))
         palettes <- c("Blues", "Oranges", "YlOrBr", "Reds", "OrRd", "Reds")
