@@ -30,7 +30,7 @@ nmbcc <- function(genus, species="*", download=FALSE,  provider=83, geo=FALSE, .
       df$collected <- as.Date(df$collected)
       df$alt[df$alt == "NaN"] <- NA
       # sort
-      df <- df[order( df$species,  df$state, df$county ), ]
+      df <- df[order( df$species,  df$state, df$county, df$collector, df$collected ), ]
       rownames(df) <-NULL
       class(df)<-c("gbif", "data.frame")
       attr(df, "species") <- name
@@ -54,14 +54,23 @@ print.gbif<-function (x, ...)
    } else{ print.data.frame(x) }
 }
 
-# Plot method for NM county maps - add county="new mexico" option to plot any state
 
+# Subset method - to preserve attributes
+"[.gbif" <- function(x, i, j, drop)
+{
+   y <- NextMethod("[")
+   class(y)<-c("gbif", "data.frame")
+   attr(y, "species") <- attr(x, "species")
+    y  
+}
+
+
+# Plot method for NM county maps - add county="new mexico" option to plot any state
 plot.gbif<-function(x, sp, pal="Greens", label= attr(x, "species"), lpos=1, lline=-1, lcex=1.4, ...)
 {
    ##  county names for matching to collections
    nm <- map("county", "new mexico", plot=FALSE)
    nm$names <- gsub("new mexico," , "", nm$names)
-
    if(missing(sp) ){
       counties <- x$county
    }else{
@@ -70,35 +79,26 @@ plot.gbif<-function(x, sp, pal="Greens", label= attr(x, "species"), lpos=1, llin
         counties <- x$county[ grep( sp, x$species) ]
         if(length(counties)==0){stop("No matches to ", sp)}
    }
-
   # maps package uses all lowercase
   counties <- tolower(counties)
-
   # add factors to get all counties from table() including zero counts
   # collections with multiple counties and other errors will also be set to NA
   counties <- factor(counties, levels=nm$names)
-
   #  print number of county names that do not match county on map
   n <- sum(is.na(counties))
   if(n > 0)  print(paste("Warning:", n, "collections not mapped"))
-
   # get totals for each county
   counties <- table(counties) 
-
   # set color scale from RColorBrewer with white as first color for 0 collections, 
   clrs <- c("white", brewer.pal(9, pal)[-1])
-
   # cut counts into 9 bins 
   n <- cut(counties, c(-1, seq(0, max(counties), length.out=9)))
-
   # match bins to colors
   mcol <- clrs[n] 
-
   # DRAW map using color scale in mcol
   map("county", "new mexico", fill=TRUE, col=mcol)
   # add title
   mtext(substitute(italic(x), list(x=label)), lpos, line= lline, cex=lcex)
-
   #add number of plant collections to map
   cnts <- as.character(counties)
   cnts[cnts=="0"]<-""
@@ -107,7 +107,6 @@ plot.gbif<-function(x, sp, pal="Greens", label= attr(x, "species"), lpos=1, llin
 
 
 # Plot coordinates
-
 points.gbif<-function(x, sp, add=FALSE, pch=16, col="blue", label= attr(x, "species"), lpos=1, lline=-1, lcex=1, ...)
 {
    if( ! missing(sp) ){
@@ -156,13 +155,12 @@ species <- function (x, abbrev = FALSE)
    }
 }
 
-
-# parse year
+# parse year or month
 year  <- function(x){ as.numeric(format.Date(x, "%Y")) }
 month <- function(x){ as.numeric(format.Date(x, "%m")) }
 
 
-# like
+# sql like pattern matching
 "%like%" <-function(x, pattern)
 {
    pattern <- glob2rx(pattern)

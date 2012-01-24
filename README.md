@@ -3,7 +3,7 @@
 This guide describes how to download and plot collection data from the New Mexico Biodiversity Collections Consortium [NMBCC](http://nmbiodiversity.org/) using the Global Biodiversity Information Facility [GBIF](http://data.gbif.org).  You will need to install a few [`R`](http://cran.r-project.org) packages including maps, dismo, RColorBrewer, and XML.  Next, download the `nmbcc.R` file above to your working directory and `source` the file to install the additional functions.
 
 	library(maps); library(dismo); library(RColorBrewer); library(XML)
-	source("nmbcc.R")
+	source("nmbcc.R", keep.source=FALSE)
        
 The main function `nmbcc` downloads the GBIF records from NMBCC and outputs a new class object `gbif`. Basically, the `nmbcc` script uses a hack to paste the dataproviderkey to the species option from `gbif()` in the `dismo` package and then reformats the output.  The default is to only return the number of collections available, in this case the number of columbines in the genus *Aquilegia*. Use the download option to retrieve the data.
 
@@ -27,7 +27,7 @@ The resulting table is a similar to `data.frame` with three specific methods: pr
 	359 Aquilegia triternata                E.J. Bedker 1962-08-05      US New Mexico          Torrance
 
 
-The `plot` method displays a colored county map. 
+The `plot` method displays a colored county map.  
 
 	plot(aq)
 	[1] "Warning: 18 collections not mapped"
@@ -46,6 +46,36 @@ The `points` method plots coordinates on the county map. If you have `RgoogleMap
 
 ![Aquilegia coordinates](/cstubben/nmbcc/raw/master/plots/nm2.png)
 
+
+## Removing duplicates
+
+Many GBIF occurrences are actually duplicate collections that could be removed using the `duplicated` function.  In the *Aquilegia* dataset, there are 45 duplicate collections with the same species, county, collector, and collected date.  In some cases, you may want to keep the 23 collections from different localities as well (by adding column 7 below).  However, many collections from different localities are actually from the same place, but entered using different formats in the database.
+
+
+	names(aq)[ c(1,6, 2,3,7)]
+	[1] "species"   "county"    "collector" "collected" "locality"
+	# with or without locality
+	table(duplicated(aq[, c(1,6,2,3,7)] ))
+	FALSE  TRUE 
+	  337    22 
+	table(duplicated(aq[, c(1,6,2,3)] ))
+	FALSE  TRUE 
+	  314    45 
+	# to check duplicates
+	data.frame( subset(aq, duplicated(aq[, c(1,6,2,3)]) |  duplicated(aq[, c(1,6,2,3)], fromLast=TRUE) ) )
+	# to remove duplicates
+	aq <- subset(aq, !duplicated(aq[, c(1,6,2,3)] ) )
+
+
+## Changing the data provider key
+
+The NMBCC data provider key is number 83 and this default option can also be changed, for example, to download collections of *Aquilegia* from the two Arizona herbaria, use the provider keys 318 and 269 (and search [GBIF](http://data.gbif.org) for additional data publisher IDs).  
+
+	az <- nmbcc("Aquilegia", provider= c(318, 269))
+	[1] "449 occurrences available. Set download=TRUE to download"
+
+## Other plots
+
 You can also use many of the built-in `R` functions to plot histograms, dotcharts, and scatterplots.
 
 	hist(year(aq$collected), xlab="Year", ylab = "Collections", main="", col="green", las=1)
@@ -56,12 +86,13 @@ You can also use many of the built-in `R` functions to plot histograms, dotchart
 ![Aquilegia plots](/cstubben/nmbcc/raw/master/plots/aq_plots.png)
 ![Aquilegia plot2](/cstubben/nmbcc/raw/master/plots/aq_plots2.png)
 
+## Plots by species
 
-All the functions have a species option to download or plot a specific species.  Also, the data provider key is an option that can also be changed, for example, to download collections of *A. chrysantha* from two Arizona herbaria, use the provider keys 318 and 269 (and search [GBIF](http://data.gbif.org) for additional data publisher IDs).  
+All the functions have a species option to download or plot a specific species. 
 
-	yucca <- nmbcc("Yucca", sp = "elata" , TRUE)
+	nmbcc("Yucca", sp = "elata")
 	plot(aq, sp="chrysantha", pal="YlOrBr")
-	az <- nmbcc("Aquilegia", sp="chrysantha", TRUE, provider= c(318, 269))
+
 
 Finally, you can plot different points for each species using a loop (first check species names and fix the alternate spelling for *caerulea*).
 
