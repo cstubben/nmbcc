@@ -74,7 +74,7 @@ plot.gbif<-function(x, sp, pal="Greens", label= attr(x, "species"), lpos=1, llin
    if(missing(sp) ){
       counties <- x$county
    }else{
-        # only change label if using default
+        # only change label if using default -the attribute may be lost in subsets and cause errors?
         if( label == attr(x, "species") ){ label <- sp } 
         counties <- x$county[ grep( sp, x$species) ]
         if(length(counties)==0){stop("No matches to ", sp)}

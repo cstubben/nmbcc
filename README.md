@@ -32,7 +32,7 @@ The `plot` method displays a colored county map.
 	plot(aq)
 	[1] "Warning: 18 collections not mapped"
 
-![Aquilegia counties](/cstubben/nmbcc/raw/master/plots/aq_counties.png)
+![Aquilegia counties](/plots/aq_counties.png)
 
 
 The `points` method plots coordinates on the county map. If you have `RgoogleMaps` installed, you can change the background using a few lines of code.
@@ -52,9 +52,9 @@ The `points` method plots coordinates on the county map. If you have `RgoogleMap
 Many GBIF occurrences are actually duplicate collections that could be removed using the `duplicated` function.  In the *Aquilegia* dataset, there are 45 duplicate collections with the same species, county, collector, and collected date.  In some cases, you may want to keep the 23 collections from different localities as well (by adding column 7 below).  However, many collections from different localities are actually from the same place, but entered using different formats in the database.
 
 
-	names(aq)[ c(1,6, 2,3,7)]
+	names(aq)[ c(1,6,2,3,7)]
 	[1] "species"   "county"    "collector" "collected" "locality"
-	# with or without locality
+	# with or without locality?
 	table(duplicated(aq[, c(1,6,2,3,7)] ))
 	FALSE  TRUE 
 	  337    22 
@@ -62,7 +62,7 @@ Many GBIF occurrences are actually duplicate collections that could be removed u
 	FALSE  TRUE 
 	  314    45 
 	# to check duplicates
-	data.frame( subset(aq, duplicated(aq[, c(1,6,2,3)]) |  duplicated(aq[, c(1,6,2,3)], fromLast=TRUE) ) )
+	data.frame( subset(aq, duplicated(aq[, c(1,6,2,3)]) | duplicated(aq[, c(1,6,2,3)], fromLast=TRUE) ) )
 	# to remove duplicates
 	aq <- subset(aq, !duplicated(aq[, c(1,6,2,3)] ) )
 
