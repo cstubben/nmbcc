@@ -83,8 +83,8 @@ You can also use many of the built-in `R` functions to plot histograms, dotchart
 	plot(year(aq$collected), format(aq$collected, "%j"), pch=16, xlab="Year", ylab="Day collected", col=rgb(0,0,1,.5))
 
 
-![Aquilegia plots](/cstubben/nmbcc/raw/master/plots/aq_plots.png)
-![Aquilegia plot2](/cstubben/nmbcc/raw/master/plots/aq_plots2.png)
+![Aquilegia plots](/plots/aq_plots.png)
+![Aquilegia plot2](/plots/aq_plots2.png)
 
 ## Plots by species
 
@@ -108,7 +108,7 @@ Finally, you can plot different points for each species using a loop (first chec
 	for(i in 1:6){ points(aq, x[i],  pch=pch[i], col=clrs[i], add=TRUE) }
 	legend(-108.3, 37.6,legend=gsub("Aquilegia", "A.", x), pch=pch, col=clrs, bty='n', ncol=3)
 
-![Aquilegia map](/cstubben/nmbcc/raw/master/plots/aq_sp.png)
+![Aquilegia map](/plots/aq_sp.png)
 
 You can also plot separate county maps using a loop.  *A. triternata* is now considered a synonym of *A. desertorum* and you could update these old names using `aq$species <-gsub("triternata", "desertorum", aq$species)`.  Since the plot function uses `grep` to match patterns, you could also combine the two species using `plot(aq, "Aquilegia [dt]", label="A. desertorum")`
 
@@ -116,7 +116,7 @@ You can also plot separate county maps using a loop.  *A. triternata* is now con
         palettes <- c("Blues", "Oranges", "YlOrBr", "Reds", "OrRd", "Reds")
         for(i in 1:6){ plot(aq, x[i], palettes[i])}
 
-![Aquilegia map2](/cstubben/nmbcc/raw/master/plots/aq_sp2.png)
+![Aquilegia map2](/plots/aq_sp2.png)
 
 
 
