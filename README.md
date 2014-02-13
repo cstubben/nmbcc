@@ -116,7 +116,7 @@ You can also plot separate county maps using a loop.  *A. triternata* is now con
         palettes <- c("Blues", "Oranges", "YlOrBr", "Reds", "OrRd", "Reds")
         for(i in 1:6){ plot(aq, x[i], palettes[i])}
 
-![Aquilegia map2](/plots/aq_sp2.png)
+![Aquilegia map2](/plots/aq_sp3.png)
 
 
 
